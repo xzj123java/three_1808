@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--映射文件-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xa.pojo.Userone">
+    <!--映射 去除字段不匹配为空问题-->
+    <resultMap id="UserMapper" type="com.xa.pojo.Userone">
+        <!--主键-->
+        <id property="U_id" column="U_id"></id>
+        <!--列-->
+        <result property="U_name" column="U_name"></result>
+        <result property="U_pass" column="U_pass"></result>
+    </resultMap>
+    <!--查询id   参数的类型为INT  返回的结果为com.xa.pojo.User的对象-->
+    <select id="getAllUserone" resultType="com.xa.pojo.Userone">
+        SELECT * FROM Userone
+    </select>
+
+    <!--映射查询-->
+    <select id="getallMap" resultMap="UserMapper">
+        SELECT * FROM Userone
+    </select>
+    <!--动态查询-->
+    <select id="selectAll" parameterType="com.xa.pojo.Userone" resultType="com.xa.pojo.Userone">
+        select * from Userone where 1=1
+        <if test="U_id!=null">
+            and U_id= #{U_id,jdbcType=INTEGER}
+        </if>
+        <if test="U_name!=null">
+            and U_name=#{U_name,jdbcType=VARCHAR}
+        </if>
+        <if test="U_pass!=null">
+            and U_pass=#{U_pass,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!-- 添加用户-->
+    <insert id="addUserone" parameterType="com.xa.pojo.Userone">
+    insert into Userone values( seq_pk_userone.nextval,#{U_name},#{U_pass})
+    </insert>
+
+    <!--删除用户-->
+    <delete id="deleteUserById" parameterType="int">
+     delete from Userone where  U_id= #{id}
+    </delete>
+
+    <!--修改用户-->
+    <update id="updateUserone" parameterType="com.xa.pojo.Userone">
+    update User set U_name=#{name},U_pass= #{pass} where  U_id= #{id}
+    </update>
+
+    <!--分页-->
+    <select id="queryUsersBySql" resultType="com.xa.pojo.Userone"  parameterType="com.xa.pojo.PagaBean" >
+--         ROWNUM RN 伪列
+        SELECT * FROM
+        (
+        SELECT A.*, ROWNUM RN
+        FROM (SELECT * FROM Userone) A
+        WHERE ROWNUM   &lt;= #{end}
+        )
+        WHERE RN &gt;= #{satre}
+    </select>
+</mapper>

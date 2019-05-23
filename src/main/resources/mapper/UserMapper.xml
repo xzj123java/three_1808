@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--映射文件-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xa.pojo.User">
+    <!--查询id   参数的类型为INT  返回的结果为com.xa.pojo.User的对象-->
+    <select id="findById" parameterType="int" resultType="com.xa.pojo.User">
+        SELECT * FROM User WHERE id=#{id}
+    </select>
+    <!--标签 类全名-->
+    <select id="findByLike" parameterType="java.lang.String" resultType="com.xa.pojo.User">
+        SELECT * FROM USER WHERE  name LIKE #{param}
+    </select>
+
+</mapper>
